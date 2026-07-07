@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://castorafoamtech.github.io/mahabhadra-portfolio/sitemap.xml
