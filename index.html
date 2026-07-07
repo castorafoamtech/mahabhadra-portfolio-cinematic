@@ -2007,6 +2007,158 @@ body.light .rec-fade-b{background:linear-gradient(to top,rgba(250,247,241,.65),t
   opacity:0;pointer-events:none;z-index:3;
 }
 .sec-glow.fire{animation:sectionGlow 1.6s cubic-bezier(.16,1,.3,1) both}
+
+/* ═══════════════════════════════════════════════════════════════
+   ██ CINEMATIC EDITION LAYER ██
+   Purely additive presentation upgrade. No content, structure,
+   routing or logic is altered — remove this block + the matching
+   "CINEMATIC ENGINE" JS block to fully revert.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Foundations: selection, scrollbar, focus ── */
+::selection{background:rgba(201,168,108,.32);color:#fff}
+body.light ::selection{background:rgba(122,82,24,.22);color:#1a1208}
+::-webkit-scrollbar{width:10px}
+::-webkit-scrollbar-track{background:#040810}
+::-webkit-scrollbar-thumb{
+  background:linear-gradient(180deg,var(--gd),var(--g) 50%,var(--gd));
+  border-radius:99px;border:2.5px solid #040810}
+::-webkit-scrollbar-thumb:hover{background:var(--gl)}
+a:focus-visible,button:focus-visible,[onclick]:focus-visible,[tabindex]:focus-visible{
+  outline:2px solid var(--g);outline-offset:3px;border-radius:6px}
+
+/* ── Hero: living gradient shimmer on the name ── */
+.h-name{
+  background-size:240% 240%;
+  animation:fsu .9s .45s both,ceShimmer 11s ease-in-out 2.2s infinite}
+@keyframes ceShimmer{
+  0%,100%{background-position:0% 30%}
+  50%{background-position:100% 70%}}
+
+/* ── Hero: ambient depth orbs (injected by JS, decorative) ── */
+.ce-orb-w{position:absolute;pointer-events:none;z-index:1;will-change:transform}
+.ce-orb{
+  width:100%;height:100%;border-radius:50%;
+  filter:blur(60px);opacity:.5;
+  animation:ceOrbFloat 14s ease-in-out infinite}
+.ce-orb-w:nth-of-type(odd) .ce-orb{animation-duration:18s;animation-delay:-6s}
+@keyframes ceOrbFloat{
+  0%,100%{transform:translate3d(0,0,0) scale(1)}
+  33%{transform:translate3d(4%,-7%,0) scale(1.08)}
+  66%{transform:translate3d(-5%,5%,0) scale(.94)}}
+body.light .ce-orb{opacity:.22}
+
+/* ── Hero: cinematic vignette (injected) ── */
+.ce-vignette{
+  position:absolute;inset:0;pointer-events:none;z-index:6;
+  background:radial-gradient(ellipse 118% 96% at 50% 42%,transparent 58%,rgba(2,4,9,.5) 100%)}
+body.light .ce-vignette{background:radial-gradient(ellipse 118% 96% at 50% 42%,transparent 66%,rgba(60,45,20,.14) 100%)}
+
+/* ── Section seams: gold hairline + bloom where sections meet ── */
+.ce-seam{
+  position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:min(560px,72%);height:1px;pointer-events:none;z-index:5;
+  background:linear-gradient(90deg,transparent,rgba(201,168,108,.5),transparent)}
+.ce-seam::after{
+  content:'';position:absolute;left:0;right:0;top:0;height:70px;
+  background:radial-gradient(ellipse 60% 100% at 50% 0%,rgba(201,168,108,.07),transparent);
+}
+body.light .ce-seam{background:linear-gradient(90deg,transparent,rgba(122,82,24,.35),transparent)}
+body.light .ce-seam::after{background:radial-gradient(ellipse 60% 100% at 50% 0%,rgba(122,82,24,.05),transparent)}
+
+/* ── Section headings: slow gradient drift once revealed ── */
+.sh h2,.rec-title,.ch{background-size:200% 200%}
+.sh h2.v,.ch.v{animation:ceShimmer 13s ease-in-out 1s infinite}
+
+/* ── Specular cursor-tracking highlight on tilting cards ──
+   (tilt engine already sets --px/--py on mousemove) */
+.mc:hover,.cc:hover,.ogc:hover,.vpf:hover{
+  background-image:radial-gradient(420px circle at var(--px,50%) var(--py,50%),
+    rgba(201,168,108,.08),transparent 42%)}
+body.light .mc:hover,body.light .cc:hover,body.light .ogc:hover{
+  background-image:radial-gradient(420px circle at var(--px,50%) var(--py,50%),
+    rgba(122,82,24,.07),transparent 42%)}
+
+/* ── CTA buttons: light sweep on hover ── */
+.bg,.bo,.nc{position:relative;overflow:hidden}
+.bg::after,.bo::after,.nc::after{
+  content:'';position:absolute;top:0;bottom:0;left:-80%;width:55%;
+  background:linear-gradient(105deg,transparent,rgba(255,255,255,.28),transparent);
+  transform:skewX(-22deg);transition:left .65s cubic-bezier(.16,1,.3,1);
+  pointer-events:none}
+.bg:hover::after,.bo:hover::after,.nc:hover::after{left:130%}
+
+/* ── Image treatment: curated hover life ── */
+@media(hover:hover){
+  .vpf .vimg{transition:transform 1.1s cubic-bezier(.16,1,.3,1),filter .6s ease}
+  .vpf:hover .vimg{transform:scale(1.035);filter:contrast(1.06) saturate(.95)}
+  .rec-panel img{transition:transform 1.2s cubic-bezier(.16,1,.3,1)}
+  .rec-panel:hover img{transform:scale(1.025)}
+}
+
+/* ── Recognition pod: deeper cinematic presence ── */
+.rec-pod{
+  box-shadow:0 60px 140px rgba(0,0,0,.55),0 0 0 1px rgba(201,168,108,.04) inset,
+    0 0 90px rgba(201,168,108,.05)}
+.rec-pod:hover{border-color:rgba(201,168,108,.34)}
+
+/* ── Contact items: staggered entrance (class added by engine IO) ── */
+.ci{opacity:0;transform:translateY(16px);
+  transition:opacity .6s ease,transform .7s cubic-bezier(.16,1,.3,1)}
+.ci.ce-in{opacity:1;transform:translateY(0)}
+.ci:nth-child(2){transition-delay:.08s}
+.ci:nth-child(3){transition-delay:.16s}
+.ci:nth-child(4){transition-delay:.24s}
+.ci:nth-child(5){transition-delay:.32s}
+
+/* ── Dot nav: alive on hover ── */
+.dn{transition:transform .25s cubic-bezier(.16,1,.3,1),background .25s,box-shadow .25s}
+.dn:hover{transform:scale(1.5)}
+.dn.a{box-shadow:0 0 12px rgba(201,168,108,.55)}
+
+/* ── Nav links: underline grows from centre ── */
+nav ul li a,.mm a{
+  background-image:linear-gradient(90deg,var(--g),var(--gl));
+  background-repeat:no-repeat;background-position:50% 100%;background-size:0% 1.5px;
+  transition:background-size .35s cubic-bezier(.16,1,.3,1),color .25s}
+nav ul li a:hover,.mm a:hover{background-size:100% 1.5px}
+
+/* ── Scroll caret: breathing ring ── */
+.sc::before{
+  content:'';position:absolute;top:-14px;left:50%;
+  width:34px;height:34px;margin-left:-17px;border-radius:50%;
+  border:1px solid rgba(201,168,108,.3);
+  animation:ceRing 2.6s ease-out infinite}
+@keyframes ceRing{
+  0%{transform:scale(.5);opacity:0}
+  40%{opacity:.7}
+  100%{transform:scale(1.35);opacity:0}}
+
+/* ── Custom cursor (desktop fine-pointer only; JS gates injection) ── */
+.ce-dot,.ce-ringc{
+  position:fixed;top:0;left:0;border-radius:50%;pointer-events:none;
+  z-index:99999;will-change:transform}
+.ce-dot{width:6px;height:6px;background:var(--gl);margin:-3px 0 0 -3px}
+.ce-ringc{
+  width:34px;height:34px;margin:-17px 0 0 -17px;
+  border:1.5px solid rgba(201,168,108,.5);
+  transition:width .3s,height .3s,margin .3s,border-color .3s,opacity .3s}
+.ce-ringc.gr{
+  width:56px;height:56px;margin:-28px 0 0 -28px;
+  border-color:rgba(226,200,138,.85)}
+body.ce-cursor-on{cursor:none}
+body.ce-cursor-on a,body.ce-cursor-on button,body.ce-cursor-on [onclick]{cursor:none}
+
+/* ── Accessibility: honour reduced-motion completely ── */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.001s!important;
+    animation-iteration-count:1!important;
+    transition-duration:.001s!important;
+    scroll-behavior:auto!important}
+  .ce-orb-w,.ce-dot,.ce-ringc{display:none!important}
+}
+/* ═══ CINEMATIC EDITION LAYER END ═══ */
 </style>
 </head>
 <body>
@@ -3283,6 +3435,132 @@ function tth(){
   /* absolute safety net: never block beyond 5s */
   setTimeout(dismiss,5000);
 })();
+
+/* ═══════════════════════════════════════════════════════════════
+   ██ CINEMATIC ENGINE ██
+   Companion to the "CINEMATIC EDITION LAYER" CSS block.
+   Purely decorative / interaction polish — injects presentation
+   elements only, never touches content or business logic.
+   ═══════════════════════════════════════════════════════════════ */
+(function(){
+  'use strict';
+  var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ── 1. Section seams: gold hairline where sections meet ── */
+  ['vision','fac','rec','cap','con'].forEach(function(id){
+    var s = document.getElementById(id);
+    if(!s) return;
+    var seam = document.createElement('div');
+    seam.className = 'ce-seam';
+    seam.setAttribute('aria-hidden','true');
+    s.appendChild(seam);
+  });
+
+  /* ── 2. Hero: vignette + ambient depth orbs ── */
+  var heroBg = document.querySelector('#hero .h-bg');
+  if(heroBg){
+    var vig = document.createElement('div');
+    vig.className = 'ce-vignette';
+    vig.setAttribute('aria-hidden','true');
+    heroBg.appendChild(vig);
+
+    if(!reduced){
+      var ORBS = [
+        { w:420, x:'6%',  y:'12%', c:'rgba(201,168,108,.14)' },
+        { w:520, x:'68%', y:'52%', c:'rgba(106,139,168,.13)' },
+        { w:300, x:'38%', y:'72%', c:'rgba(226,200,138,.10)' }
+      ];
+      var orbWraps = [];
+      ORBS.forEach(function(o){
+        var w = document.createElement('div');
+        w.className = 'ce-orb-w';
+        w.setAttribute('aria-hidden','true');
+        w.style.cssText = 'width:'+o.w+'px;height:'+o.w+'px;left:'+o.x+';top:'+o.y;
+        var b = document.createElement('div');
+        b.className = 'ce-orb';
+        b.style.background = 'radial-gradient(circle,'+o.c+',transparent 70%)';
+        w.appendChild(b);
+        heroBg.appendChild(w);
+        orbWraps.push(w);
+      });
+
+      /* ── 3. Hero mouse parallax: orbs + text drift at depth tiers ──
+         (orb wrappers + .h-text carry no CSS keyframe transforms,
+         so inline transforms are conflict-free) */
+      if(matchMedia('(pointer:fine)').matches){
+        var hero  = document.getElementById('hero');
+        var hText = document.querySelector('.h-text');
+        var mx=0, my=0, cx=0, cy=0, pRaf=null;
+        function pTick(){
+          cx += (mx-cx)*.06; cy += (my-cy)*.06;
+          orbWraps.forEach(function(w,i){
+            var d = (i+1)*9;
+            w.style.transform = 'translate3d('+(cx*d)+'px,'+(cy*d)+'px,0)';
+          });
+          if(hText) hText.style.transform = 'translate3d('+(cx*-6)+'px,'+(cy*-4)+'px,0)';
+          if(Math.abs(mx-cx)>.001 || Math.abs(my-cy)>.001) pRaf = requestAnimationFrame(pTick);
+          else pRaf = null;
+        }
+        if(hero) hero.addEventListener('mousemove',function(e){
+          mx = (e.clientX/innerWidth  - .5);
+          my = (e.clientY/innerHeight - .5);
+          if(!pRaf) pRaf = requestAnimationFrame(pTick);
+        },{passive:true});
+      }
+    }
+  }
+
+  /* ── 4. Contact grid: staggered entrance ── */
+  var cis = document.querySelectorAll('.ci');
+  if(cis.length){
+    var ciObs = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(!e.isIntersecting) return;
+        e.target.classList.add('ce-in');
+        ciObs.unobserve(e.target);
+      });
+    },{threshold:.2});
+    cis.forEach(function(el){ ciObs.observe(el); });
+  }
+
+  /* ── 5. Custom cursor: dot + trailing ring (desktop only) ── */
+  if(!reduced && matchMedia('(pointer:fine)').matches && !('ontouchstart' in window)){
+    var dot  = document.createElement('div');
+    var ring = document.createElement('div');
+    dot.className  = 'ce-dot';
+    ring.className = 'ce-ringc';
+    dot.setAttribute('aria-hidden','true');
+    ring.setAttribute('aria-hidden','true');
+    dot.style.opacity = ring.style.opacity = '0';
+    document.body.appendChild(dot);
+    document.body.appendChild(ring);
+    document.body.classList.add('ce-cursor-on');
+
+    var x=0,y=0,rx=0,ry=0,cRaf=null,shown=false;
+    function cTick(){
+      rx += (x-rx)*.16; ry += (y-ry)*.16;
+      ring.style.transform = 'translate3d('+rx+'px,'+ry+'px,0)';
+      if(Math.abs(x-rx)>.2 || Math.abs(y-ry)>.2) cRaf = requestAnimationFrame(cTick);
+      else cRaf = null;
+    }
+    document.addEventListener('mousemove',function(e){
+      x = e.clientX; y = e.clientY;
+      dot.style.transform = 'translate3d('+x+'px,'+y+'px,0)';
+      if(!shown){ dot.style.opacity='1'; ring.style.opacity='1'; shown=true; }
+      if(!cRaf) cRaf = requestAnimationFrame(cTick);
+    },{passive:true});
+    document.addEventListener('mouseleave',function(){
+      dot.style.opacity='0'; ring.style.opacity='0'; shown=false;
+    });
+    /* Ring grows over anything interactive */
+    document.addEventListener('mouseover',function(e){
+      if(e.target.closest('a,button,[onclick],[data-goto],.rec-dot,.dn,.ogc,.mc,.cc,.rec-pod'))
+        ring.classList.add('gr');
+      else ring.classList.remove('gr');
+    },{passive:true});
+  }
+})();
+/* ═══ CINEMATIC ENGINE END ═══════════════════ */
 </script>
 </body>
 </html>
